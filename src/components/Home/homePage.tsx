@@ -10,6 +10,8 @@ import {
   IMessage,
 } from "../../interfaces/interfaces";
 import { messages } from "../../services/data";
+import { Image } from "@fluentui/react-components";
+import { Notification } from "../StatusNotification/notifications";
 
 interface IHomePage {
   theme: Theme;
@@ -18,6 +20,20 @@ interface IHomePage {
 export const HomePage = (props: IHomePage) => {
   const [lastSendMessage, setLastSendMessage] = useState<SendMessage | null>(null);
   const [lastDraftMessage, setLastDraftMessage] = useState<DraftMessage | null>(null);
+  const [recentMessages, setRecentMessages] = useState<IMessage[]>([]);
+
+  useEffect(() => {
+    // Assuming you want to display the last 6 messages
+    setRecentMessages(messages.slice(-6));
+  }, []);
+
+  const renderStatus = (message: IMessage) => {
+    if ("status" in message) {
+      return message.status.send === "True" ? "sent" : "error";
+    }
+    return "sending"; // Assuming all scheduled messages are in sending state
+  };
+
   const [lastScheduledMessage, setLastScheduledMessage] =
     useState<ScheduledMessage | null>(null);
 
@@ -40,7 +56,7 @@ export const HomePage = (props: IHomePage) => {
   }, []);
 
   return (
-    <>
+    <div className="root">
       <Header theme={props.theme} />
 
       <main className="cc-main">
@@ -81,8 +97,41 @@ export const HomePage = (props: IHomePage) => {
               />
             )}
           </div>
+          <div className="cc-gridMessages">
+            <h2 className="cc-messages-title">Últimas Mensagens</h2>
+            {recentMessages.map((message, index) => (
+              <div className="cc-row" key={index}>
+                <div className="cc-container">
+                  <Image
+                    alt="Avatar"
+                    shape="circular"
+                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
+                    height={36}
+                    width={36}
+                  />
+                  <div>
+                    <p className="card-profile-txt">
+                      <strong>{message.author}</strong> enviou uma mensagem
+                    </p>
+                    <p className="card-profile-txt">
+                      <strong>Título: </strong>
+                      {message.title}
+                    </p>
+                    <p className="card-profile-txt">
+                      <strong>Destinatários: </strong>
+                      {message.recipients}
+                    </p>
+                  </div>
+                </div>
+                <div className="notification-section">
+                  <Notification status={renderStatus(message)} />
+                  <p className="card-profile-txt">3 min atrás</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
       </main>
-    </>
+    </div>
   );
 };
