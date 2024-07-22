@@ -1,0 +1,12 @@
+.cc-draft {
+  background: var(--colorNeutralBackground5);
+  user-select: none;
+  min-height: 100vh;
+
+  padding-left: 7.5rem;
+  padding-top: 2.5rem;
+}
+
+.cc-draft-title {
+  font-size: 1.25rem;
+}

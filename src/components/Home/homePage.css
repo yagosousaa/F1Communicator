@@ -1,0 +1,95 @@
+.cc-main {
+  background: var(--colorNeutralBackground5);
+  user-select: none;
+  min-height: 100vh;
+  margin: auto;
+  padding-left: 7.5rem;
+  padding-right: 7.5rem;
+  padding-top: 2rem;
+}
+
+.cc-content {
+  margin: auto;
+  display: flex;
+  gap: 10rem;
+  justify-content: space-evenly;
+}
+
+.cc-main-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.cc-section {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 2.5rem;
+  padding-right: 2rem;
+}
+
+.cc-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cc-new-message {
+  background-color: var(--colorPaletteLightTealBorderActive);
+  border: none;
+
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-right: 0.8rem;
+  padding-left: 0.8rem;
+
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.cc-new-message:hover {
+  background-color: var(--colorPaletteLightTealForeground2);
+  transition: 0.3s;
+  transform: scale(1.05);
+}
+
+.cc-messages-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.notification-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cc-row {
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 150%;
+}
+
+.cc-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.container-messages {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cc-rows-section {
+  height: 100%;
+}
