@@ -9,9 +9,11 @@ export default function Tab() {
   const { themeString } = useContext(TeamsFxContext);
   return (
     <div
-      className={themeString === "default" ? "light" : themeString === "dark" ? "dark" : "contrast"}
+      className={
+        themeString === "default" ? "light" : themeString === "dark" ? "dark" : "contrast"
+      }
     >
-      <Welcome showFunction={showFunction} />
+      <Welcome />
     </div>
   );
 }
