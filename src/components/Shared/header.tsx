@@ -1,6 +1,7 @@
+import * as React from "react";
 import { Divider, teamsLightTheme, Theme } from "@fluentui/react-components";
 import { Home, Send, Clock, SquarePen } from "lucide-react";
-// import logo from "../../assets/Images/logo.png";
+import logo from "../../assets/Images/logo.png";
 import "./main.css";
 import { NavLink } from "react-router-dom";
 
@@ -13,7 +14,7 @@ export const Header = (props: IHeaderProps) => {
     <div className="header-section">
       <div className={props.theme === teamsLightTheme ? "cc-header-light" : "cc-header"}>
         <div className="cc-main-left">
-          <img srcSet={""} alt="Logo" className="cc-logo" title="Header" />
+          <img srcSet={logo} alt="Logo" className="cc-logo" title="Header" />
           <span className="cc-divider">/</span>
           <span className="cc-title">F1 Communicator</span>
         </div>
@@ -42,7 +43,7 @@ export const Header = (props: IHeaderProps) => {
           </NavLink>
         </nav>
       </div>
-      <Divider className="divider" appearance="subtle" />
+      <Divider className="divider-fluentUI" appearance="subtle" />
     </div>
   );
 };

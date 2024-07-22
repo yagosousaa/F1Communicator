@@ -1,69 +1,75 @@
+/* Estilos principais para o título do cartão */
 .card-title {
   font-size: 18px;
   font-weight: 500;
-  padding-top: 1rem;
 }
 
+/* Estilos para os detalhes do cartão */
 .card-details {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+/* Estilos gerais para a borda e layout do cartão */
 .card-border {
   border: solid 1.5px var(--colorNeutralBackground4Hover);
   background-color: var(--colorNeutralBackground4);
   border-radius: 0.5rem;
-  min-width: 60rem;
-  min-height: 12.5rem;
-
-  margin-bottom: 2rem;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+/* Estilos para o cabeçalho do cartão */
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  padding: 0 1rem;
+  height: 100%;
 }
 
+/* Seção de conteúdo do cartão */
 .card-content-section {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1rem;
-  padding-left: 1rem;
 }
 
+/* Estilos para o menu do cartão */
 .card-menu {
   border: solid 1.5px var(--colorNeutralBackground4Hover);
   border-radius: 8px;
   padding: 0.2rem;
-  margin: 1rem;
   cursor: pointer;
+  position: relative;
+  top: 8px;
+  right: -6px;
 }
 
+/* Estilos para o rodapé do cartão */
 .card-footer {
   background-color: var(--colorNeutralBackground5);
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  padding: 0.4rem;
-  padding-left: 1rem;
+  padding: 0 1rem;
   font-size: 12px;
   border-top: solid 1.5px var(--colorNeutralBackground4Hover);
   display: flex;
+  align-items: center;
   gap: 0.5rem;
+  min-height: 32px;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
+/* Estilos para o texto do perfil no cartão */
 .card-profile-txt {
   font-weight: 400;
   color: var(--colorNeutralForeground4);
 }
 
+/* Estilos para textos fortes (negrito) */
 strong {
-  font: normal;
   font-weight: 400;
   color: var(--colorNeutralForeground1);
 }

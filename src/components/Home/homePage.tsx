@@ -1,17 +1,44 @@
+import React, { useEffect, useState } from "react";
 import { Header } from "../Shared/header";
 import { CardHome } from "../CardHome/cardHome";
 import { Theme } from "@fluentui/react-components";
-import { Image } from "@fluentui/react-components";
 import "./homePage.css";
-import { SendNotification } from "../StatusNotification/sendNotification";
-import { SendingNotification } from "../StatusNotification/sendingNotification";
-import { ErroNotification } from "../StatusNotification/erroNotification";
+import {
+  SendMessage,
+  DraftMessage,
+  ScheduledMessage,
+  IMessage,
+} from "../../interfaces/interfaces";
+import { messages } from "../../services/data";
 
 interface IHomePage {
   theme: Theme;
 }
 
 export const HomePage = (props: IHomePage) => {
+  const [lastSendMessage, setLastSendMessage] = useState<SendMessage | null>(null);
+  const [lastDraftMessage, setLastDraftMessage] = useState<DraftMessage | null>(null);
+  const [lastScheduledMessage, setLastScheduledMessage] =
+    useState<ScheduledMessage | null>(null);
+
+  useEffect(() => {
+    const findLastMessageByType = <T extends IMessage>(
+      type: T["typeMessage"]
+    ): T | null => {
+      const specificMessages = messages.filter(
+        (message): message is T => message.typeMessage === type
+      );
+      if (!specificMessages.length) return null;
+      return specificMessages.reduce((prev, current) =>
+        new Date(prev.data) > new Date(current.data) ? prev : current
+      );
+    };
+
+    setLastSendMessage(findLastMessageByType<SendMessage>("SendMessage"));
+    setLastDraftMessage(findLastMessageByType<DraftMessage>("DraftMessage"));
+    setLastScheduledMessage(findLastMessageByType<ScheduledMessage>("ScheduledMessage"));
+  }, []);
+
   return (
     <>
       <Header theme={props.theme} />
@@ -24,227 +51,35 @@ export const HomePage = (props: IHomePage) => {
           </div>
         </section>
         <section className="cc-content">
-          <div>
-            <CardHome title="Última mensagem" />
-            <CardHome title="Último rascunho" />
-            <CardHome title="Última mensagem agendada" />
-          </div>
-
-          <div className="container-messages">
-            <div>
-              <h1 className="cc-messages-title">Últimas Mensagens</h1>
-            </div>
-
-            <div className="cc-rows-section">
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <ErroNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendingNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-              <div className="cc-row">
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong> Yago Sousa </strong>enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>lorem ipsum!
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>23
-                    </p>
-                  </div>
-                </div>
-                <div className="notification-section">
-                  <SendNotification />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-            </div>
+          <div className="cc-gridCards">
+            {lastSendMessage && (
+              <CardHome
+                title="Última mensagem enviada"
+                profileText={lastSendMessage.author}
+                status={
+                  lastSendMessage.status.send === "True" ? "Enviado" : "Não enviado"
+                }
+                recipients={lastSendMessage.recipients}
+              />
+            )}
+            {lastDraftMessage && (
+              <CardHome
+                title="Último rascunho"
+                profileText={lastDraftMessage.author}
+                status="Rascunho"
+                recipients={lastDraftMessage.recipients}
+              />
+            )}
+            {lastScheduledMessage && (
+              <CardHome
+                title="Última mensagem agendada"
+                profileText={lastScheduledMessage.author}
+                status={`Agendado para ${new Date(
+                  lastScheduledMessage.scheduledDate
+                ).toLocaleString()}`}
+                recipients={lastScheduledMessage.recipients}
+              />
+            )}
           </div>
         </section>
       </main>
