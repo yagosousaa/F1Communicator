@@ -29,7 +29,7 @@ export const HomePage = (props: IHomePage) => {
 
   const renderStatus = (message: IMessage) => {
     if ("status" in message) {
-      return message.status.send === "True" ? "sent" : "error";
+      return message.status === "send" ? "sent" : "error";
     }
     return "sending"; // Assuming all scheduled messages are in sending state
   };
@@ -46,7 +46,7 @@ export const HomePage = (props: IHomePage) => {
       );
       if (!specificMessages.length) return null;
       return specificMessages.reduce((prev, current) =>
-        new Date(prev.data) > new Date(current.data) ? prev : current
+        new Date(prev.date) > new Date(current.date) ? prev : current
       );
     };
 
@@ -70,65 +70,67 @@ export const HomePage = (props: IHomePage) => {
           <div className="cc-gridCards">
             {lastSendMessage && (
               <CardHome
-                title="Última mensagem enviada"
+                lastTitle={"Ultima Mensagem Enviada"}
+                title={lastSendMessage.title}
                 profileText={lastSendMessage.author}
-                status={
-                  lastSendMessage.status.send === "True" ? "Enviado" : "Não enviado"
-                }
+                status={lastSendMessage.status === "send" ? "Enviado" : "Não enviado"}
                 recipients={lastSendMessage.recipients}
+                date={lastSendMessage.date}
               />
             )}
             {lastDraftMessage && (
               <CardHome
-                title="Último rascunho"
+                lastTitle={"Ultimo Rascunho"}
+                title={lastDraftMessage.title}
                 profileText={lastDraftMessage.author}
-                status="Rascunho"
                 recipients={lastDraftMessage.recipients}
+                date={lastDraftMessage.date}
               />
             )}
             {lastScheduledMessage && (
               <CardHome
-                title="Última mensagem agendada"
+                lastTitle={"Ultima Mensagem Agendada"}
+                title={lastScheduledMessage.title}
                 profileText={lastScheduledMessage.author}
-                status={`Agendado para ${new Date(
-                  lastScheduledMessage.scheduledDate
-                ).toLocaleString()}`}
                 recipients={lastScheduledMessage.recipients}
+                date={lastScheduledMessage.date}
               />
             )}
           </div>
-          <div className="cc-gridMessages">
+          <div className="cc-lastSendMessages">
             <h2 className="cc-messages-title">Últimas Mensagens</h2>
-            {recentMessages.map((message, index) => (
-              <div className="cc-row" key={index}>
-                <div className="cc-container">
-                  <Image
-                    alt="Avatar"
-                    shape="circular"
-                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-                    height={36}
-                    width={36}
-                  />
-                  <div>
-                    <p className="card-profile-txt">
-                      <strong>{message.author}</strong> enviou uma mensagem
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Título: </strong>
-                      {message.title}
-                    </p>
-                    <p className="card-profile-txt">
-                      <strong>Destinatários: </strong>
-                      {message.recipients}
-                    </p>
+            <div className="cc-gridRow">
+              {recentMessages.map((message, index) => (
+                <div className="cc-row" key={index}>
+                  <div className="cc-container">
+                    <Image
+                      alt="Avatar"
+                      shape="circular"
+                      src={message.imageProfile}
+                      height={36}
+                      width={36}
+                    />
+                    <div>
+                      <p className="card-profile-txt">
+                        <strong>{message.author}</strong> enviou uma mensagem
+                      </p>
+                      <p className="card-profile-txt">
+                        <strong>Título: </strong>
+                        {message.title}
+                      </p>
+                      <p className="card-profile-txt">
+                        <strong>Destinatários: </strong>
+                        {message.recipients}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="notification-section">
+                    <Notification status={renderStatus(message)} />
+                    <p className="card-profile-txt">3 min atrás</p>
                   </div>
                 </div>
-                <div className="notification-section">
-                  <Notification status={renderStatus(message)} />
-                  <p className="card-profile-txt">3 min atrás</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
       </main>

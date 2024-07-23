@@ -4,17 +4,14 @@ export interface BaseMessage {
   title: string;
   message: string;
   author: string;
-  data: string;
+  date: string;
   recipients: number;
+  status: string;
+  imageProfile: string;
 }
 
 export interface SendMessage extends BaseMessage {
   typeMessage: "SendMessage";
-  status: {
-    error: string;
-    sending: string;
-    send: string;
-  };
 }
 
 export interface DraftMessage extends BaseMessage {

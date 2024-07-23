@@ -8,20 +8,31 @@ import {
   MenuList,
   MenuItem,
 } from "@fluentui/react-components";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface ICardHome {
   title?: string;
   profileText?: string;
   status?: string;
   recipients?: number;
+  date: string;
+  lastTitle: string;
 }
 
-export const CardHome = ({ title, profileText, status, recipients }: ICardHome) => {
+export const CardHome = ({
+  title,
+  profileText,
+  status,
+  recipients,
+  date,
+  lastTitle,
+}: ICardHome) => {
   return (
     <div className="card-border">
       <div className="card-header">
         <div className="card-content-section">
-          <h1 className="card-title">{title}</h1>
+          <h1 className="card-title">{lastTitle}</h1>
           <div className="card-details">
             <Image
               shape="rounded"
@@ -32,10 +43,10 @@ export const CardHome = ({ title, profileText, status, recipients }: ICardHome) 
             />
             <div>
               <p className="card-profile-txt">
-                <strong>Título: </strong> {profileText}
+                <strong>Título: </strong> {title}
               </p>
               <p className="card-profile-txt">
-                <strong>Status: </strong> {status}
+                {status === null ? null : <strong>Status: </strong>}
               </p>
               <p className="card-profile-txt">
                 <strong>Destinatários: </strong> {recipients}
@@ -68,7 +79,11 @@ export const CardHome = ({ title, profileText, status, recipients }: ICardHome) 
           width={18}
         />
         <p className="card-profile-txt">
-          <strong>Yago </strong>enviou à uma hora atrás
+          <strong>{profileText} </strong>
+          {formatDistanceToNow(new Date(date), {
+            locale: ptBR,
+            addSuffix: true,
+          })}
         </p>
       </div>
     </div>

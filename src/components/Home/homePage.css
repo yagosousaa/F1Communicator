@@ -15,7 +15,7 @@
 .cc-content {
   margin: auto;
   display: flex;
-  gap: 10rem;
+  gap: 4rem;
   justify-content: space-between;
   width: 81vw;
 }
@@ -73,11 +73,9 @@
 .cc-row {
   display: flex;
   align-items: center;
-  font-size: 14px;
   font-weight: 800;
-  line-height: 150%;
   justify-content: space-between;
-  width: 25vw;
+  width: 30vw;
   border: solid 1px #29292982;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -107,8 +105,14 @@
   width: 50vw;
 }
 
-.cc-gridMessages {
+.cc-lastSendMessages {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
+}
+
+.cc-gridRow {
+  display: grid;
+  grid-template-rows: 6rem;
+  grid-row-gap: 12px;
 }
