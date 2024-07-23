@@ -1,32 +1,26 @@
-// https://fluentsite.z22.web.core.windows.net/quick-start
+import React from "react";
 import {
   FluentProvider,
-  teamsLightTheme,
   teamsDarkTheme,
-  teamsHighContrastTheme,
+  teamsLightTheme,
   Spinner,
   tokens,
 } from "@fluentui/react-components";
 import { HashRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import { useTeamsUserCredential } from "@microsoft/teamsfx-react";
 import { HomePage } from "./components/Home/homePage";
-import React from "react";
 import { SendMessages } from "./components/SendMessages/sendMessages";
 import { DraftMessages } from "./components/DraftMessages/draftMessages";
 import { ScheduledMessages } from "./components/ScheduledMessages/scheduledMessages";
 
-/**
- * The main app which handles the initialization and routing
- * of the app.
- */
-
 export default function App() {
   const [fluentUITheme, setFluentUITheme] = React.useState(teamsDarkTheme);
 
-  const { loading, themeString } = useTeamsUserCredential({
+  const { loading } = useTeamsUserCredential({
     clientId: process.env.REACT_APP_CLIENT_ID!,
     initiateLoginEndpoint: process.env.REACT_APP_START_LOGIN_PAGE_URL!,
   });
+
   return (
     <FluentProvider
       theme={fluentUITheme}

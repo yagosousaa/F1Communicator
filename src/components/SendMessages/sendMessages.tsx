@@ -1,186 +1,122 @@
-import { Header } from "../Shared/header";
+import * as React from "react";
+import { TextField } from "@fluentui/react/lib/TextField";
 import {
-  Avatar,
-  Field,
-  Menu,
-  MenuItem,
-  MenuList,
-  MenuPopover,
-  MenuTrigger,
-  SearchBox,
-  TableBody,
-  TableCell,
-  TableCellLayout,
-  Theme,
-} from "@fluentui/react-components";
-import {
-  Table,
-  TableHeader,
-  TableHeaderCell,
-  TableRow,
-} from "@fluentui/react-components";
+  DetailsList,
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+} from "@fluentui/react/lib/DetailsList";
+import { messages } from "../../services/data";
+import { IMessage } from "../../interfaces/interfaces";
 import "./sendMessages.css";
-import { Ellipsis, Send, TextIcon } from "lucide-react";
+import { Header } from "../Shared/header";
+import { Theme } from "@fluentui/react-components";
 
-interface ISendMessages {
+interface ISendMessagesProps {
   theme: Theme;
 }
 
-const items = [
-  {
-    title: { label: "Lorem Ipsum Lorem Ipsum Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem ipum " },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-  {
-    title: { label: "Lorem Ipsum" },
-    sendDate: { label: "06/06/2024" },
-    recipients: { label: "32" },
-    status: { label: "Enviado" },
-    createdBy: { label: "Yago Sousa" },
-  },
-];
+interface ISendMessagesState {
+  columns: IColumn[];
+  items: IMessage[];
+}
 
-const columns = [
-  { columnKey: "title", label: "Título" },
-  { columnKey: "", label: "" },
-  { columnKey: "send", label: "Enviado" },
-  { columnKey: "recipients", label: "Destinatários" },
-  { columnKey: "status", label: "Status" },
-  { columnKey: "createdBy", label: "Criado por" },
-];
+export class SendMessages extends React.Component<
+  ISendMessagesProps,
+  ISendMessagesState
+> {
+  private _allItems: IMessage[];
 
-export const SendMessages = (props: ISendMessages) => {
-  return (
-    <>
-      <Header theme={props.theme} />
+  constructor(props: ISendMessagesProps) {
+    super(props);
 
-      <main className="cc-send">
-        <div className="cc-searchbox">
-          <h1 className="cc-send-title">Mensagens enviadas</h1>
-          <SearchBox className="searchBox" appearance="filled-darker" />
-        </div>
+    this._allItems = messages;
+
+    const columns: IColumn[] = [
+      {
+        key: "column1",
+        name: "Titulo",
+        fieldName: "Titulo",
+        minWidth: 240,
+        maxWidth: 320,
+        isResizable: true,
+        data: "number",
+        onRender: (item: IMessage) => {
+          return <span>{item.title}</span>;
+        },
+        isPadded: true,
+      },
+      {
+        key: "column2",
+        name: "Autor",
+        fieldName: "Autor",
+        minWidth: 240,
+        maxWidth: 320,
+        isResizable: true,
+        data: "number",
+        onRender: (item: IMessage) => {
+          return <span>{item.author}</span>;
+        },
+        isPadded: true,
+      },
+      {
+        key: "column3",
+        name: "Status",
+        fieldName: "Status",
+        minWidth: 240,
+        maxWidth: 320,
+        isResizable: true,
+        data: "number",
+        onRender: (item: IMessage) => {
+          return <span>{item.status}</span>;
+        },
+        isPadded: true,
+      },
+    ];
+
+    this.state = {
+      items: this._allItems,
+      columns,
+    };
+  }
+
+  public render() {
+    const { columns, items } = this.state;
+    const { theme } = this.props;
+
+    return (
+      <div className="root">
+        <Header theme={theme} />
         <div>
-          <Table arial-label="Default table" size="small" className="tableHeader">
-            <TableHeader>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableHeaderCell key={column.columnKey}>{column.label}</TableHeaderCell>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items.map((item) => (
-                <TableRow key={item.title.label}>
-                  <TableCell className="titleTable">
-                    <TableCellLayout>
-                      {item.title.label.length > 27
-                        ? item.title.label.substring(0, 27) + "..."
-                        : item.title.label}
-                    </TableCellLayout>
-                  </TableCell>
-                  <TableCell />
-                  <TableCell>
-                    <TableCellLayout className="table-text-gray">
-                      {item.sendDate.label}
-                    </TableCellLayout>
-                  </TableCell>
-                  <TableCell className="table-text-gray">
-                    {item.recipients.label}
-                  </TableCell>
-                  <TableCell>
-                    <TableCellLayout>{item.status.label}</TableCellLayout>
-                  </TableCell>
-                  <TableCell>
-                    <TableCellLayout
-                      media={
-                        <Avatar
-                          aria-label={item.createdBy.label}
-                          name={item.createdBy.label}
-                        />
-                      }
-                    >
-                      {item.createdBy.label}
-                    </TableCellLayout>
-                  </TableCell>
-                  <TableCell>
-                    <Menu>
-                      <MenuTrigger disableButtonEnhancement>
-                        <Ellipsis size={18} className="card-menu" />
-                      </MenuTrigger>
-
-                      <MenuPopover>
-                        <MenuList>
-                          <MenuItem icon={<TextIcon size={18} />}>Abrir</MenuItem>
-                          <MenuItem icon={<Send size={18} />}>Enviar</MenuItem>
-                        </MenuList>
-                      </MenuPopover>
-                    </Menu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TextField
+            placeholder="Digite para pesquisar..."
+            onChange={this._onChangeText}
+          />
         </div>
-      </main>
-    </>
-  );
-};
+        <div className="detailsList">
+          <DetailsList
+            items={items}
+            columns={columns}
+            selectionMode={SelectionMode.none}
+            setKey="none"
+            layoutMode={DetailsListLayoutMode.justified}
+            isHeaderVisible={true}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  private _onChangeText = (
+    ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+    text?: string
+  ): void => {
+    this.setState({
+      items: text
+        ? this._allItems.filter(
+            (i) => i.title.toLowerCase().indexOf(text.toLowerCase()) > -1
+          )
+        : this._allItems,
+    });
+  };
+}
