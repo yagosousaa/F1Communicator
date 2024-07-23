@@ -2,7 +2,7 @@ import React from "react";
 import "./notification.css";
 
 interface INotificationProps {
-  status: "sending" | "sent" | "error";
+  status: string;
 }
 
 export const Notification = ({ status }: INotificationProps) => {

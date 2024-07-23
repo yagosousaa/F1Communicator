@@ -14,11 +14,23 @@ import { ptBR } from "date-fns/locale";
 interface ICardHome {
   title?: string;
   profileText?: string;
-  status?: string;
+  status: string;
   recipients?: number;
   date: string;
   lastTitle: string;
+  profileImage: string;
 }
+
+const renderStatus = (status: string) => {
+  switch (status) {
+    case "sent":
+      return "Enviado";
+    case "sending":
+      return "Enviando";
+    case "error":
+      return "Erro";
+  }
+};
 
 export const CardHome = ({
   title,
@@ -27,6 +39,7 @@ export const CardHome = ({
   recipients,
   date,
   lastTitle,
+  profileImage,
 }: ICardHome) => {
   return (
     <div className="card-border">
@@ -46,7 +59,7 @@ export const CardHome = ({
                 <strong>Título: </strong> {title}
               </p>
               <p className="card-profile-txt">
-                {status === null ? null : <strong>Status: </strong>}
+                {status == "" ? null : <strong>Status: </strong>}
               </p>
               <p className="card-profile-txt">
                 <strong>Destinatários: </strong> {recipients}
@@ -71,13 +84,7 @@ export const CardHome = ({
         </div>
       </div>
       <div className="card-footer">
-        <Image
-          alt="Avatar"
-          shape="circular"
-          src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/ErikNason.jpg"
-          height={18}
-          width={18}
-        />
+        <Image alt="Avatar" shape="circular" src={profileImage} height={18} width={18} />
         <p className="card-profile-txt">
           <strong>{profileText} </strong>
           {formatDistanceToNow(new Date(date), {

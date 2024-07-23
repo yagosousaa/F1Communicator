@@ -12,6 +12,8 @@ import {
 import { messages } from "../../services/data";
 import { Image } from "@fluentui/react-components";
 import { Notification } from "../StatusNotification/notifications";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface IHomePage {
   theme: Theme;
@@ -23,16 +25,13 @@ export const HomePage = (props: IHomePage) => {
   const [recentMessages, setRecentMessages] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    // Assuming you want to display the last 6 messages
-    setRecentMessages(messages.slice(-6));
-  }, []);
+    const recentSendMessages = messages
+      .filter((message): message is SendMessage => message.typeMessage === "SendMessage")
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(1, 7);
 
-  const renderStatus = (message: IMessage) => {
-    if ("status" in message) {
-      return message.status === "send" ? "sent" : "error";
-    }
-    return "sending"; // Assuming all scheduled messages are in sending state
-  };
+    setRecentMessages(recentSendMessages);
+  }, []);
 
   const [lastScheduledMessage, setLastScheduledMessage] =
     useState<ScheduledMessage | null>(null);
@@ -73,9 +72,10 @@ export const HomePage = (props: IHomePage) => {
                 lastTitle={"Ultima Mensagem Enviada"}
                 title={lastSendMessage.title}
                 profileText={lastSendMessage.author}
-                status={lastSendMessage.status === "send" ? "Enviado" : "Não enviado"}
+                status={lastSendMessage.status}
                 recipients={lastSendMessage.recipients}
                 date={lastSendMessage.date}
+                profileImage={lastSendMessage.imageProfile}
               />
             )}
             {lastDraftMessage && (
@@ -83,8 +83,10 @@ export const HomePage = (props: IHomePage) => {
                 lastTitle={"Ultimo Rascunho"}
                 title={lastDraftMessage.title}
                 profileText={lastDraftMessage.author}
+                status={lastDraftMessage.status}
                 recipients={lastDraftMessage.recipients}
                 date={lastDraftMessage.date}
+                profileImage={lastDraftMessage.imageProfile}
               />
             )}
             {lastScheduledMessage && (
@@ -92,8 +94,10 @@ export const HomePage = (props: IHomePage) => {
                 lastTitle={"Ultima Mensagem Agendada"}
                 title={lastScheduledMessage.title}
                 profileText={lastScheduledMessage.author}
+                status={lastScheduledMessage.status}
                 recipients={lastScheduledMessage.recipients}
                 date={lastScheduledMessage.date}
+                profileImage={lastScheduledMessage.imageProfile}
               />
             )}
           </div>
@@ -118,15 +122,16 @@ export const HomePage = (props: IHomePage) => {
                         <strong>Título: </strong>
                         {message.title}
                       </p>
-                      <p className="card-profile-txt">
-                        <strong>Destinatários: </strong>
-                        {message.recipients}
-                      </p>
                     </div>
                   </div>
                   <div className="notification-section">
-                    <Notification status={renderStatus(message)} />
-                    <p className="card-profile-txt">3 min atrás</p>
+                    <Notification status={message.status} />
+                    <p className="card-date-txt">
+                      {formatDistanceToNow(new Date(message.date), {
+                        locale: ptBR,
+                        addSuffix: true,
+                      })}
+                    </p>
                   </div>
                 </div>
               ))}

@@ -4,6 +4,7 @@
   justify-content: center;
   background-color: #042f2e;
   border-radius: 1rem;
+  width: 65px;
 }
 
 .sendTitle {
@@ -18,6 +19,7 @@
   justify-content: center;
   background-color: #422006;
   border-radius: 1rem;
+  width: 75px;
 }
 
 .sendingTitle {
@@ -32,6 +34,7 @@
   justify-content: center;
   background-color: #450a0a;
   border-radius: 1rem;
+  width: 50px;
 }
 
 .erroTitle {
