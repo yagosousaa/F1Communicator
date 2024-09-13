@@ -21,17 +21,6 @@ interface ICardHome {
   profileImage: string;
 }
 
-const renderStatus = (status: string) => {
-  switch (status) {
-    case "sent":
-      return "Enviado";
-    case "sending":
-      return "Enviando";
-    case "error":
-      return "Erro";
-  }
-};
-
 export const CardHome = ({
   title,
   profileText,
@@ -59,7 +48,7 @@ export const CardHome = ({
                 <strong>Título: </strong> {title}
               </p>
               <p className="card-profile-txt">
-                {status == "" ? null : <strong>Status: </strong>}
+                {status === "" ? null : <strong>Status: </strong>}
               </p>
               <p className="card-profile-txt">
                 <strong>Destinatários: </strong> {recipients}

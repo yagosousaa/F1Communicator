@@ -11,6 +11,13 @@ import { IMessage } from "../../interfaces/interfaces";
 import "./sendMessages.css";
 import { Header } from "../Shared/header";
 import { Theme } from "@fluentui/react-components";
+import { Pagination } from "@fluentui/react-experiments";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  DoubleChevronLeftIcon,
+  DoubleChevronRightIcon,
+} from "@fluentui/react-icons-mdl2";
 
 interface ISendMessagesProps {
   theme: Theme;
@@ -19,6 +26,9 @@ interface ISendMessagesProps {
 interface ISendMessagesState {
   columns: IColumn[];
   items: IMessage[];
+  filteredItems: IMessage[];
+  itemsPerPage: number;
+  currentPage: number;
 }
 
 export class SendMessages extends React.Component<
@@ -40,7 +50,7 @@ export class SendMessages extends React.Component<
         minWidth: 240,
         maxWidth: 320,
         isResizable: true,
-        data: "number",
+        data: "string",
         onRender: (item: IMessage) => {
           return <span>{item.title}</span>;
         },
@@ -53,7 +63,7 @@ export class SendMessages extends React.Component<
         minWidth: 240,
         maxWidth: 320,
         isResizable: true,
-        data: "number",
+        data: "string",
         onRender: (item: IMessage) => {
           return <span>{item.author}</span>;
         },
@@ -66,7 +76,7 @@ export class SendMessages extends React.Component<
         minWidth: 240,
         maxWidth: 320,
         isResizable: true,
-        data: "number",
+        data: "string",
         onRender: (item: IMessage) => {
           return <span>{item.status}</span>;
         },
@@ -76,13 +86,19 @@ export class SendMessages extends React.Component<
 
     this.state = {
       items: this._allItems,
+      filteredItems: this._allItems,
+      itemsPerPage: 10,
+      currentPage: 1,
       columns,
     };
   }
 
   public render() {
-    const { columns, items } = this.state;
+    const { columns, itemsPerPage, currentPage, filteredItems } = this.state;
     const { theme } = this.props;
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
     return (
       <div className="root">
@@ -95,12 +111,36 @@ export class SendMessages extends React.Component<
         </div>
         <div className="detailsList">
           <DetailsList
-            items={items}
+            items={paginatedItems}
             columns={columns}
             selectionMode={SelectionMode.none}
             setKey="none"
             layoutMode={DetailsListLayoutMode.justified}
             isHeaderVisible={true}
+          />
+          <Pagination
+            selectedPageIndex={currentPage - 1}
+            pageCount={Math.ceil(filteredItems.length / itemsPerPage)}
+            itemsPerPage={itemsPerPage}
+            totalItemCount={filteredItems.length}
+            format={"buttons"}
+            firstPageIconProps={{
+              iconName: "DoubleChevronLeftIcon",
+              children: <DoubleChevronLeftIcon className="iconPagination" />,
+            }}
+            previousPageIconProps={{
+              iconName: "ChevronLeftIcon",
+              children: <ChevronLeftIcon />,
+            }}
+            nextPageIconProps={{
+              iconName: "ChevronRightIcon",
+              children: <ChevronRightIcon />,
+            }}
+            lastPageIconProps={{
+              iconName: "DoubleChevronRightIcon",
+              children: <DoubleChevronRightIcon />,
+            }}
+            onPageChange={this._onChangePage}
           />
         </div>
       </div>
@@ -111,12 +151,19 @@ export class SendMessages extends React.Component<
     ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     text?: string
   ): void => {
+    const filteredItems = text
+      ? this._allItems.filter(
+          (i) => i.title.toLowerCase().indexOf(text.toLowerCase()) > -1
+        )
+      : this._allItems;
+
     this.setState({
-      items: text
-        ? this._allItems.filter(
-            (i) => i.title.toLowerCase().indexOf(text.toLowerCase()) > -1
-          )
-        : this._allItems,
+      filteredItems,
+      currentPage: 1,
     });
+  };
+
+  private _onChangePage = (pageIndex: number): void => {
+    this.setState({ currentPage: pageIndex + 1 });
   };
 }

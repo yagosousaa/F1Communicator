@@ -10,3 +10,17 @@
 .detailsList {
   max-height: 400px;
 }
+
+.detailsList button {
+  color: var(--colorNeutralForeground1);
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.iconPagination {
+  color: white;
+}

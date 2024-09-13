@@ -1,3 +1,17 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.cc-send {
+  max-width: 81vw;
+  padding: 1rem;
+}
+
 .cc-draft {
   background: var(--colorNeutralBackground5);
   user-select: none;
@@ -9,4 +23,32 @@
 
 .cc-draft-title {
   font-size: 1.25rem;
+}
+
+.paginate {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.searchBox {
+  border: 1px dashed;
+  background-color: transparent;
+  outline: none;
+  max-width: 250px;
+  border-radius: 6px;
+  padding: 0 8px;
+}
+
+.searchBox div {
+  width: 0px;
+  height: 0px;
+}
+
+.searchBox::after {
+  border: 1px dashed var(--colorNeutralForeground2BrandHover);
+  outline: none;
+  max-width: 250px;
+  border-radius: 6px;
+  padding: 0 8px;
 }
